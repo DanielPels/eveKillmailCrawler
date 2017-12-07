@@ -5,17 +5,17 @@ import (
 )
 
 //faction Id:
-//amarr = 500003
-//minmatar = 500002
+//Amarr = 500003
+//Minmatar = 500002
 
-const amarr = 500003
-const minmatar = 500002
+const Amarr = 500003
+const Minmatar = 500002
 
 type SolarSystem struct {
 	Id          int           `json:"Id"`
 	KillmailIDs []int         `json:"KillmailIDs"`
-	Amarr       map[int]*Ship `json:"amarr"`    //WHERE INT IS TYPE Id
-	Minmatar    map[int]*Ship `json:"minmatar"` //WHERE INT IS TYPE Id
+	Amarr       map[int]*Ship `json:"Amarr"`    //WHERE INT IS TYPE Id
+	Minmatar    map[int]*Ship `json:"Minmatar"` //WHERE INT IS TYPE Id
 	Neutral     map[int]*Ship `json:"Neutral"`  //WHERE INT IS TYPE Id
 }
 
@@ -31,9 +31,9 @@ func (s *SolarSystem) AddVictim(killmail *killmail.ZKillmail) {
 	s.KillmailIDs = append(s.KillmailIDs, killmail.KillmailID)
 
 	switch killmail.Victim.FactionID {
-	case amarr:
+	case Amarr:
 		s.addVictimToFaction(s.Amarr, killmail)
-	case minmatar:
+	case Minmatar:
 		s.addVictimToFaction(s.Minmatar, killmail)
 	default:
 		s.addVictimToFaction(s.Neutral, killmail)
@@ -90,9 +90,9 @@ func (s *SolarSystem) AddAttacker(killmail *killmail.ZKillmail) {
 
 		//faction Id staat niet altijd in json, dus is deze op zijn default value(0 in dit geval)
 		switch attacker.FactionID {
-		case amarr:
+		case Amarr:
 			s.addAttackerToFaction(s.Amarr, attacker.ShipTypeID)
-		case minmatar:
+		case Minmatar:
 			s.addAttackerToFaction(s.Minmatar, attacker.ShipTypeID)
 		default:
 			s.addAttackerToFaction(s.Neutral, attacker.ShipTypeID)

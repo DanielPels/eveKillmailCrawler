@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"fmt"
 	"io"
+	"encoding/json"
 )
 
 func NewWebServer() {
@@ -14,8 +15,8 @@ func NewWebServer() {
 }
 
 func handleRoot(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "KAKA: %s!", r.URL.Path[1:])
-	io.WriteString(w, "DFHJSDKJHFKDJSHFKD")
+	a, _ := json.Marshal(database.GetMostKillerShipSorted(0))
+	io.WriteString(w, string(a))
 }
 
 func handleAmarr(w http.ResponseWriter, r *http.Request) {

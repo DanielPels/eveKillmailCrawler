@@ -59,6 +59,7 @@ func (z *ZCrawler) Start() {
 	//het moet een duration zijn
 	z.ticker = time.NewTicker(time.Second * time.Duration(apiRequestDelay))
 	go func() {
+		z.nextInQueue()
 		for range z.ticker.C {
 			fmt.Println("")
 			fmt.Println("Tick!")
