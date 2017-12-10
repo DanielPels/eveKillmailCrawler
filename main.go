@@ -7,13 +7,8 @@ import (
 	"eveKillmailCrawler/zDatabase"
 	"eveKillmailCrawler/staticData"
 	"eveKillmailCrawler/crawler"
+	"eveKillmailCrawler/market"
 )
-
-type marketPrices []struct {
-	TypeID        int     `json:"type_id"`
-	AveragePrice  float64 `json:"average_price,omitempty"`
-	AdjustedPrice float64 `json:"adjusted_price"`
-}
 
 //dits een persoonlijk project om lol mee te hebben ;) en GO te leren
 
@@ -31,8 +26,8 @@ type marketPrices []struct {
 //maak functies zo dat de killDatabase gevult kan worden - DONE
 //maak functie die de killDatabase backuped naar file - DONE
 //maak een crawler voor zkillboard die de killDatabase vult - DONE
-//maak een functie die de naam van een typeID ophaalt
-//maak een object dat market data ophaalt en je de prijs kan opvragen afhanelijk van typeID
+//maak een functie die de naam van een typeID ophaalt - DONE
+//maak een object dat market data ophaalt en je de prijs kan opvragen afhanelijk van typeID - DONE
 //maak functies die nuttige info uit de database halen
 //maak een http web server die de data mooi kan representeren
 //	er moet uitgerekend worden voor hoeveel de item ongeveer verkocht moet worden
@@ -53,6 +48,7 @@ func main() {
 	//testCodeTime()
 
 	staticData.Init("staticData/typeIDs.json", "staticData/groupIDs.json", "staticData/categoryIDs.json")
+	market.Init()
 
 	database = zDatabase.New()
 
@@ -74,8 +70,6 @@ func main() {
 	}()
 
 	NewWebServer()
-
-	//select {}
 }
 
 func testCodeMapsEnPointers() {

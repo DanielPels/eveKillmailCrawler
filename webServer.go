@@ -3,9 +3,10 @@ package main
 import (
 	"net/http"
 	"fmt"
-	"io"
-	"encoding/json"
 	"eveKillmailCrawler/staticData"
+	"eveKillmailCrawler/market"
+	"encoding/json"
+	"io"
 )
 
 func NewWebServer() {
@@ -15,13 +16,21 @@ func NewWebServer() {
 	http.ListenAndServe(":8080", nil)
 }
 
+type tempstruct struct {
+	Name  string  `json:"Name"`
+	Price float64 `json:"Price"`
+}
+
 func handleRoot(w http.ResponseWriter, r *http.Request) {
 
-	nameSlice := make([]string, 0)
+	var nameSlice []tempstruct
 
 	for _, item := range database.GetMostLostShipSorted(0) {
 		if staticData.GetCategoryIDFromTypeID(item.Id) == 6 {
-			nameSlice = append(nameSlice, staticData.GetTypeIDName(item.Id))
+			nameSlice = append(nameSlice, tempstruct{
+				Name:  staticData.GetTypeIDName(item.Id),
+				Price: market.GetPriceOfTypeID(item.Id),
+			})
 		}
 	}
 

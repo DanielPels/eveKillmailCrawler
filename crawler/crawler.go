@@ -110,11 +110,11 @@ func (z *ZCrawler) getKillmails(Id int, time string) {
 
 	//haal de kills op
 	resp, err := http.Get(requestURL)
-	defer resp.Body.Close()
 	if err != nil {
 		fmt.Println("ERROR HTTP GET")
 		return
 	}
+	defer resp.Body.Close()
 
 	var killMails *[]killmail.ZKillmail
 	json.NewDecoder(resp.Body).Decode(&killMails)
