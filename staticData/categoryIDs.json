@@ -1,0 +1,170 @@
+[
+  {
+    "categoryID": 0,
+    "name": "#System"
+  },
+  {
+    "categoryID": 1,
+    "name": "Owner"
+  },
+  {
+    "categoryID": 2,
+    "name": "Celestial"
+  },
+  {
+    "categoryID": 3,
+    "name": "Station"
+  },
+  {
+    "categoryID": 4,
+    "name": "Material"
+  },
+  {
+    "categoryID": 5,
+    "name": "Accessories"
+  },
+  {
+    "categoryID": 6,
+    "name": "Ship"
+  },
+  {
+    "categoryID": 7,
+    "name": "Module"
+  },
+  {
+    "categoryID": 8,
+    "name": "Charge"
+  },
+  {
+    "categoryID": 9,
+    "name": "Blueprint"
+  },
+  {
+    "categoryID": 10,
+    "name": "Trading"
+  },
+  {
+    "categoryID": 11,
+    "name": "Entity"
+  },
+  {
+    "categoryID": 14,
+    "name": "Bonus"
+  },
+  {
+    "categoryID": 16,
+    "name": "Skill"
+  },
+  {
+    "categoryID": 17,
+    "name": "Commodity"
+  },
+  {
+    "categoryID": 18,
+    "name": "Drone"
+  },
+  {
+    "categoryID": 20,
+    "name": "Implant"
+  },
+  {
+    "categoryID": 22,
+    "name": "Deployable"
+  },
+  {
+    "categoryID": 23,
+    "name": "Starbase"
+  },
+  {
+    "categoryID": 24,
+    "name": "Reaction"
+  },
+  {
+    "categoryID": 25,
+    "name": "Asteroid"
+  },
+  {
+    "categoryID": 26,
+    "name": "WorldSpace"
+  },
+  {
+    "categoryID": 29,
+    "name": "Abstract"
+  },
+  {
+    "categoryID": 30,
+    "name": "Apparel"
+  },
+  {
+    "categoryID": 32,
+    "name": "Subsystem"
+  },
+  {
+    "categoryID": 34,
+    "name": "Ancient Relics"
+  },
+  {
+    "categoryID": 35,
+    "name": "Decryptors"
+  },
+  {
+    "categoryID": 39,
+    "name": "Infrastructure Upgrades"
+  },
+  {
+    "categoryID": 40,
+    "name": "Sovereignty Structures"
+  },
+  {
+    "categoryID": 41,
+    "name": "Planetary Interaction"
+  },
+  {
+    "categoryID": 42,
+    "name": "Planetary Resources"
+  },
+  {
+    "categoryID": 43,
+    "name": "Planetary Commodities"
+  },
+  {
+    "categoryID": 46,
+    "name": "Orbitals"
+  },
+  {
+    "categoryID": 49,
+    "name": "Placeables"
+  },
+  {
+    "categoryID": 53,
+    "name": "Effects"
+  },
+  {
+    "categoryID": 54,
+    "name": "Lights"
+  },
+  {
+    "categoryID": 59,
+    "name": "Cells"
+  },
+  {
+    "categoryID": 63,
+    "name": "Special Edition Assets"
+  },
+  {
+    "categoryID": 65,
+    "name": "Structure"
+  },
+  {
+    "categoryID": 66,
+    "name": "Structure Module"
+  },
+  {
+    "categoryID": 87,
+    "name": "Fighter"
+  },
+  {
+    "categoryID": 350001,
+    "name": "Infantry"
+  }
+]

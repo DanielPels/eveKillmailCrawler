@@ -5,6 +5,7 @@ import (
 	"time"
 	"os"
 	"eveKillmailCrawler/zDatabase"
+	"eveKillmailCrawler/staticData"
 	"eveKillmailCrawler/crawler"
 )
 
@@ -30,6 +31,8 @@ type marketPrices []struct {
 //maak functies zo dat de killDatabase gevult kan worden - DONE
 //maak functie die de killDatabase backuped naar file - DONE
 //maak een crawler voor zkillboard die de killDatabase vult - DONE
+//maak een functie die de naam van een typeID ophaalt
+//maak een object dat market data ophaalt en je de prijs kan opvragen afhanelijk van typeID
 //maak functies die nuttige info uit de database halen
 //maak een http web server die de data mooi kan representeren
 //	er moet uitgerekend worden voor hoeveel de item ongeveer verkocht moet worden
@@ -48,6 +51,8 @@ var database *zDatabase.ZDatabase
 func main() {
 	//testCodeMapsEnPointers()
 	//testCodeTime()
+
+	staticData.Init("staticData/typeIDs.json", "staticData/groupIDs.json", "staticData/categoryIDs.json")
 
 	database = zDatabase.New()
 

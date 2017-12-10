@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"encoding/json"
+	"eveKillmailCrawler/staticData"
 )
 
 func NewWebServer() {
@@ -15,7 +16,16 @@ func NewWebServer() {
 }
 
 func handleRoot(w http.ResponseWriter, r *http.Request) {
-	a, _ := json.Marshal(database.GetMostKillerShipSorted(0))
+
+	nameSlice := make([]string, 0)
+
+	for _, item := range database.GetMostLostShipSorted(0) {
+		if staticData.GetCategoryIDFromTypeID(item.Id) == 6 {
+			nameSlice = append(nameSlice, staticData.GetTypeIDName(item.Id))
+		}
+	}
+
+	a, _ := json.Marshal(nameSlice)
 	io.WriteString(w, string(a))
 }
 
