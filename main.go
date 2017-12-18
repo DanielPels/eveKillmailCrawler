@@ -39,7 +39,7 @@ import (
 //	moet een mail kunnen uitsturen met een lijst van items die gekocht moeten worden
 //maak een functie die zoekt welke item het meeste profijt geeft
 
-var backupFileName string = "data.json"
+var backupFileName = "data.json"
 var backupTicker *time.Ticker
 var database *zDatabase.ZDatabase
 

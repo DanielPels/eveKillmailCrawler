@@ -95,6 +95,8 @@ func (z *ZCrawler) nextInQueue() {
 				z.getKillmails(system.Id, "")
 			}
 		}()
+		//stop de loop zo dat we maar 1 system per keer doen.
+		break
 	}
 }
 
