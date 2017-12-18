@@ -11,7 +11,7 @@ import (
 
 func NewWebServer() {
 	http.HandleFunc("/", handleRoot)
-	http.HandleFunc("/amarr", handleAmarr)
+	http.HandleFunc("/amarr/", handleAmarr)
 	http.HandleFunc("/minmatar", handleMinmatar)
 	http.ListenAndServe(":8080", nil)
 }
@@ -39,6 +39,8 @@ func handleRoot(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleAmarr(w http.ResponseWriter, r *http.Request) {
+	fmt.Println()
+
 	fmt.Fprintf(w, "amarr rrr", r.URL.Path[1:])
 }
 

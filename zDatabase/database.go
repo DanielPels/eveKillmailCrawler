@@ -4,9 +4,11 @@ import (
 	"encoding/json"
 	"eveKillmailCrawler/killmail"
 	"sort"
+	"sync"
 )
 
 type ZDatabase struct {
+	Mu           *sync.Mutex
 	SolarSystems map[int]*SolarSystem `json:"SolarSystems"`
 }
 
@@ -23,17 +25,26 @@ func (d *ZDatabase) AddSolarSystem(id int) {
 }
 
 func (d ZDatabase) AddKillmails(solarSystemID int, kill killmail.ZKillmail) {
+	d.Mu.Lock()
+	defer d.Mu.Unlock()
+
 	d.AddSolarSystem(solarSystemID)
 	d.SolarSystems[solarSystemID].AddVictim(&kill)
 	d.SolarSystems[solarSystemID].AddAttacker(&kill)
 }
 
 func (d ZDatabase) ExportToJson() []byte {
+	d.Mu.Lock()
+	defer d.Mu.Unlock()
+
 	b, _ := json.Marshal(d)
 	return b
 }
 
 func (d *ZDatabase) ImportFromJson(b []byte) {
+	d.Mu.Lock()
+	defer d.Mu.Unlock()
+
 	json.Unmarshal(b, d)
 }
 
@@ -225,5 +236,8 @@ func addItemCountToSlice(itemSlice *[]*Item, item Item) {
 }
 
 func New() *ZDatabase {
-	return &ZDatabase{SolarSystems: make(map[int]*SolarSystem)}
+	return &ZDatabase{
+		Mu:           &sync.Mutex{},
+		SolarSystems: make(map[int]*SolarSystem),
+	}
 }
