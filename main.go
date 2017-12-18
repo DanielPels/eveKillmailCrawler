@@ -28,9 +28,9 @@ import (
 //maak een crawler voor zkillboard die de killDatabase vult - DONE
 //maak een functie die de naam van een typeID ophaalt - DONE
 //maak een object dat market data ophaalt en je de prijs kan opvragen afhanelijk van typeID - DONE
-//maak functies die nuttige info uit de database halen
-//maak een http web server die de data mooi kan representeren
-//	er moet uitgerekend worden voor hoeveel de item ongeveer verkocht moet worden
+//maak functies die nuttige info uit de database halen - DONE
+//maak een http web server die de data mooi kan representeren - DONE
+//	er moet uitgerekend worden voor hoeveel de item ongeveer verkocht moet worden - DONE
 //json bestand komen van welke system gecrawled moeten worden
 //via http post een systeem kunnen toevoegen
 //maak een market order tracker
@@ -58,8 +58,27 @@ func main() {
 
 	go func() {
 		crawler := zCrawler.New("2017-01-01T00:00:00Z", database)
+		crawler.AddSystem(30002960)
+		crawler.AddSystem(30002959)
+		crawler.AddSystem(30002958)
 		crawler.AddSystem(30002961)
-		//crawler.Start()
+		crawler.AddSystem(30002957)
+		crawler.AddSystem(30002979)
+		crawler.AddSystem(30002980)
+		crawler.AddSystem(30002978)
+		crawler.AddSystem(30002981)
+		crawler.AddSystem(30002977)
+		crawler.AddSystem(30002976)
+		crawler.AddSystem(30003088)
+		crawler.AddSystem(30002962)
+		crawler.AddSystem(30002538)
+		crawler.AddSystem(30003063)
+		crawler.AddSystem(30003069)
+		crawler.AddSystem(30003068)
+		crawler.AddSystem(30002975)
+		crawler.AddSystem(30002541)
+		crawler.AddSystem(30002542)
+		crawler.Start()
 	}()
 
 	backupTicker = time.NewTicker(time.Second * time.Duration(60))

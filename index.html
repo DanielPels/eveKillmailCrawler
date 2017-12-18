@@ -30,6 +30,14 @@
         <th>Jita price</th>
         <th>Sell price</th>
     </tr>
+{{range .LostShips}}
+    <tr>
+        <td>{{.Name}}</td>
+        <td>{{.Total}}</td>
+        <td>{{printf "%.2f" .PriceJita}}</td>
+        <td>{{printf "%.2f" .PriceSell}}</td>
+    </tr>
+{{end}}
 </table>
 <hr>
 
@@ -41,6 +49,14 @@
         <th>Jita price</th>
         <th>Sell price</th>
     </tr>
+{{range .LostModules}}
+    <tr>
+        <td>{{.Name}}</td>
+        <td>{{.Total}}</td>
+        <td>{{printf "%.2f" .PriceJita}}</td>
+        <td>{{printf "%.2f" .PriceSell}}</td>
+    </tr>
+{{end}}
 </table>
 <hr>
 
@@ -52,17 +68,14 @@
         <th>Jita price</th>
         <th>Sell price</th>
     </tr>
-</table>
-<hr>
-
-<h1>10 most used drones</h1>
-<table>
+{{range .LostCharges}}
     <tr>
-        <th>Drone</th>
-        <th>Total</th>
-        <th>Jita price</th>
-        <th>Sell price</th>
+        <td>{{.Name}}</td>
+        <td>{{.Total}}</td>
+        <td>{{printf "%.2f" .PriceJita}}</td>
+        <td>{{printf "%.2f" .PriceSell}}</td>
     </tr>
+{{end}}
 </table>
 <hr>
 
@@ -74,6 +87,14 @@
         <th>Jita price</th>
         <th>Sell price</th>
     </tr>
+{{range .KillerShips}}
+    <tr>
+        <td>{{.Name}}</td>
+        <td>{{.Total}}</td>
+        <td>{{printf "%.2f" .PriceJita}}</td>
+        <td>{{printf "%.2f" .PriceSell}}</td>
+    </tr>
+{{end}}
 </table>
 <hr>
 </body>
