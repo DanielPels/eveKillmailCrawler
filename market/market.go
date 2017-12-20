@@ -28,6 +28,8 @@ const timeout = 3600
 
 var ticker *time.Ticker
 
+//Every 1 hour pull new eve online market data and save it into a map
+//mutex = because maps are not concurrent save so the mutex prevents any race conditions
 func Init() {
 	mu = &sync.Mutex{}
 	ticker = time.NewTicker(time.Second * time.Duration(timeout))
@@ -36,6 +38,7 @@ func Init() {
 	go func() {
 		requestMarketData()
 		for range ticker.C {
+			//Request market data
 			requestMarketData()
 		}
 	}()
@@ -60,6 +63,7 @@ func updateMarketData(data []esiMarketPrices) {
 	mu.Lock()
 	defer mu.Unlock()
 
+	//loop through all items and put them in the marketData map
 	for _, value := range data {
 		if marketData[value.TypeID] == nil {
 			marketData[value.TypeID] = &marketPrice{
@@ -73,6 +77,7 @@ func updateMarketData(data []esiMarketPrices) {
 	fmt.Println("New market data set")
 }
 
+//gets market price of ItemID
 func GetPriceOfTypeID(id int) float64 {
 	mu.Lock()
 	defer mu.Unlock()

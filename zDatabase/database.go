@@ -12,6 +12,15 @@ type ZDatabase struct {
 	SolarSystems map[int]*SolarSystem `json:"SolarSystems"`
 }
 
+//mutex = to avoid race condition
+//Solarsystems are all the systems that we have crawled
+func New() *ZDatabase {
+	return &ZDatabase{
+		Mu:           &sync.Mutex{},
+		SolarSystems: make(map[int]*SolarSystem),
+	}
+}
+
 func (d *ZDatabase) AddSolarSystem(id int) {
 	if d.SolarSystems[id] == nil {
 		d.SolarSystems[id] = &SolarSystem{
@@ -24,6 +33,7 @@ func (d *ZDatabase) AddSolarSystem(id int) {
 	}
 }
 
+//add a killmail
 func (d ZDatabase) AddKillmails(solarSystemID int, kill killmail.ZKillmail) {
 	d.Mu.Lock()
 	defer d.Mu.Unlock()
@@ -33,6 +43,7 @@ func (d ZDatabase) AddKillmails(solarSystemID int, kill killmail.ZKillmail) {
 	d.SolarSystems[solarSystemID].AddAttacker(&kill)
 }
 
+//exporting
 func (d ZDatabase) ExportToJson() []byte {
 	d.Mu.Lock()
 	defer d.Mu.Unlock()
@@ -41,6 +52,7 @@ func (d ZDatabase) ExportToJson() []byte {
 	return b
 }
 
+//importing
 func (d *ZDatabase) ImportFromJson(b []byte) {
 	d.Mu.Lock()
 	defer d.Mu.Unlock()
@@ -48,8 +60,8 @@ func (d *ZDatabase) ImportFromJson(b []byte) {
 	json.Unmarshal(b, d)
 }
 
-//todo deze functies komen te veel voor PLS DRY!
-//ik snap echt niet helemaal hoe deze pointer shiz werkt
+//todo: Could be DRY but do not know how yet.
+//Gets data from this database
 func (d *ZDatabase) GetMostLostShipSorted(faction int) []*Item {
 
 	shipSlice := make([]*Item, 0)
@@ -233,11 +245,4 @@ func addItemCountToSlice(itemSlice *[]*Item, item Item) {
 		}
 	}
 	*itemSlice = append(*itemSlice, &item)
-}
-
-func New() *ZDatabase {
-	return &ZDatabase{
-		Mu:           &sync.Mutex{},
-		SolarSystems: make(map[int]*SolarSystem),
-	}
 }

@@ -22,6 +22,21 @@ we hebben dus nodig:
 	Lijst van systems die we crawlen
 	een loop om elke X seconden een http call te maken naar de Zkillboard api
 	soort van queue(wat een stom woord) voor welk solar system gerequest moet worden
+
+
+
+
+
+What should the crawler do:
+	Per system, get all kills, put into database
+	Once X time has been hit stop crawling that system(too old data not in the meta)
+
+What we need:
+	End data,
+	Solarsystem ID
+	List of systems to crawl,
+	Loop that ticks every X seconds to crawl zkillboard,
+	A queue(word that looks funny) for every solarsystem to request
 */
 
 const baseURL string = "https://zkillboard.com/api/system/"
@@ -39,6 +54,7 @@ type ZCrawler struct {
 	database   *zDatabase.ZDatabase
 }
 
+//adds a system to the queue list
 func (z *ZCrawler) AddSystem(id int) {
 	for _, system := range z.queue {
 		if system.Id == id {
@@ -49,6 +65,7 @@ func (z *ZCrawler) AddSystem(id int) {
 	fmt.Println("Added " + strconv.Itoa(id) + " system to queue")
 }
 
+//starts the crawler tick
 func (z *ZCrawler) Start() {
 	fmt.Println("Starting crawler")
 	if z.ticker != nil {
@@ -68,6 +85,7 @@ func (z *ZCrawler) Start() {
 	}()
 }
 
+//stop the crawler
 func (z *ZCrawler) Stop() {
 	fmt.Println("Stopping crawler")
 	if z.ticker != nil {
@@ -77,17 +95,17 @@ func (z *ZCrawler) Stop() {
 }
 
 func (z *ZCrawler) nextInQueue() {
-	//loop door alle systems heen die in de queue zitten
+	//loop trough all systems in the queue
 	for _, system := range z.queue {
-		//check of er wel een tijd is zo niet dan gewoon de kills ophalen
+		//check if we have a last kill
 		if system.LastKill != nil {
-			//check of tijd voorbij is
+			//if we do then check if we have passed this time
 			if hasTimePast(*system.LastKill, z.finishTime) {
-				//zo jah skip dit system
+				//true == past time continue to next for loop
 				continue
 			}
 		}
-		//idk? als goed is gewoon lekkere nieuw go routine
+		//create new go routine to request systems
 		go func() {
 			if system.LastKill != nil {
 				z.getKillmails(system.Id, system.LastKill.Format("2006010215")+"00")
@@ -95,22 +113,24 @@ func (z *ZCrawler) nextInQueue() {
 				z.getKillmails(system.Id, "")
 			}
 		}()
-		//stop de loop zo dat we maar 1 system per keer doen.
+		//break the loop to only request 1 system per tick
 		break
 	}
 }
 
+//request killmails from zkillboard api
 func (z *ZCrawler) getKillmails(Id int, time string) {
 
 	requestURL := baseURL + strconv.Itoa(Id) + "/"
 
+	//if we have a time add time parameters in URL
 	if time != "" {
 		requestURL += "endTime/" + time + "/"
 	}
 
 	fmt.Println("Requesting URL: " + requestURL)
 
-	//haal de kills op
+	//request the kills
 	resp, err := http.Get(requestURL)
 	if err != nil {
 		fmt.Println("ERROR HTTP GET")
@@ -118,30 +138,37 @@ func (z *ZCrawler) getKillmails(Id int, time string) {
 	}
 	defer resp.Body.Close()
 
+	//decode killmails from json
 	var killMails *[]killmail.ZKillmail
 	json.NewDecoder(resp.Body).Decode(&killMails)
 	z.proccessKillmails(Id, *killMails)
 }
 
-func (z *ZCrawler) proccessKillmails(Id int, kills []killmail.ZKillmail) {
+//proccess the killmails
+func (z *ZCrawler) proccessKillmails(systemID int, kills []killmail.ZKillmail) {
+	//loop trough kills and add to database
 	for _, kill := range kills {
-		z.database.AddKillmails(Id, kill)
+		z.database.AddKillmails(systemID, kill)
 	}
 
+	//if we got a kill
+	//get system and add kill time stamp as last killmailTime
 	if len(kills) > 0 {
 		for _, system := range z.queue {
-			if system.Id == Id {
+			if system.Id == systemID {
 				system.LastKill = &kills[len(kills)-1].KillmailTime
 			}
 		}
 	}
 
-	fmt.Println("Got kills for system: " + strconv.Itoa(Id))
+	//print ;)
+	fmt.Println("Got kills for system: " + strconv.Itoa(systemID))
 	fmt.Println("Total of " + strconv.Itoa(len(kills)) + " added")
 	fmt.Println("Last kill at: " + kills[len(kills)-1].KillmailTime.String())
 }
 
 //is T1 voorbij T2 zo jah true, zo niet false
+//time diff
 func hasTimePast(t1 time.Time, t2 time.Time) bool {
 	if t1.Sub(t2).Hours() > 0 {
 		return false

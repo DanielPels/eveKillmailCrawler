@@ -47,15 +47,19 @@ func main() {
 	//testCodeMapsEnPointers()
 	//testCodeTime()
 
+	//load static data
 	staticData.Init("staticData/typeIDs.json", "staticData/groupIDs.json", "staticData/categoryIDs.json")
+	//init market
 	market.Init()
-
+	//create new database
 	database = zDatabase.New()
-
+	//check if we had a backup
 	if checkForBackup(backupFileName) {
+		//load if we had
 		database.ImportFromJson(getBackup(backupFileName))
 	}
 
+	//make new crawler and add system
 	go func() {
 		crawler := zCrawler.New("2017-01-01T00:00:00Z", database)
 		crawler.AddSystem(30002960)
@@ -81,13 +85,16 @@ func main() {
 		crawler.Start()
 	}()
 
+	//begin backup timer
 	backupTicker = time.NewTicker(time.Second * time.Duration(60))
 	go func() {
 		for range backupTicker.C {
+			//make backup
 			saveBackup(database.ExportToJson(), backupFileName)
 		}
 	}()
 
+	//start webserver
 	NewWebServer()
 }
 

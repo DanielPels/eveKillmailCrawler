@@ -6,7 +6,7 @@ import (
 )
 
 func checkForBackup(fileName string) bool {
-	//check of de file er is
+	//check if file is there
 	if _, err := os.Stat(fileName); !os.IsNotExist(err) {
 		return true
 	}

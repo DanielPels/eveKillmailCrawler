@@ -23,6 +23,7 @@ func (s *Ship) addToFitted(item int, quantity int) {
 	s.Fitted[item].Quantity += quantity
 }
 
+//check if we have an item, if not create it
 func checkAndCreateItem(typeID int, items map[int]*Item) {
 	if items[typeID] == nil {
 		items[typeID] = &Item{

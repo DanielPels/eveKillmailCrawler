@@ -20,16 +20,17 @@ type SolarSystem struct {
 }
 
 func (s *SolarSystem) AddVictim(killmail *killmail.ZKillmail) {
-	//loop door alle zKillmail Id's en check of die al is geweest is zo jah quit functie
+	//loopt trough killmail ID's if this ID is already added return function to do add duplicates
 	for _, killmailID := range s.KillmailIDs {
 		if killmailID == killmail.KillmailID {
 			return
 		}
 	}
 
-	//voeg de zKillmail Id toe aan de lijst
+	//Add killmail ID to killmailID tracking list
 	s.KillmailIDs = append(s.KillmailIDs, killmail.KillmailID)
 
+	//depending on faction add killmail
 	switch killmail.Victim.FactionID {
 	case Amarr:
 		s.addVictimToFaction(s.Amarr, killmail)
@@ -44,14 +45,14 @@ func (s *SolarSystem) addVictimToFaction(faction map[int]*Ship, killmail *killma
 	//check of de struct al bestaat, van het schip
 	checkAndCreateShip(killmail.Victim.ShipTypeID, faction)
 
-	//haal de struct op van het schip
+	//Get struct of this ship
 	var victimShip *Ship = faction[killmail.Victim.ShipTypeID]
 
 	// :( its ded
 	victimShip.Loss++
 
-	//loop door alle items heen en voeg deze toe
-	//een map op te tracken welke items als geweest zijn
+	//loop trough all items and add them
+	//create a map to check if the item has been added(to avoid adding multiple)
 	addedItems := make(map[int]bool)
 
 	for _, item := range killmail.Victim.Items {
@@ -61,7 +62,7 @@ func (s *SolarSystem) addVictimToFaction(faction map[int]*Ship, killmail *killma
 		}
 		addedItems[item.ItemTypeID] = true
 
-		//hoeveel is er gedropt
+		//how much did drop?
 		quantity := 0
 
 		if item.QuantityDestroyed != nil {
@@ -72,6 +73,7 @@ func (s *SolarSystem) addVictimToFaction(faction map[int]*Ship, killmail *killma
 		}
 
 		switch item.Flag {
+		//5 == cargo
 		case 5:
 			victimShip.addToCargo(item.ItemTypeID, quantity)
 		default:
@@ -83,12 +85,13 @@ func (s *SolarSystem) addVictimToFaction(faction map[int]*Ship, killmail *killma
 func (s *SolarSystem) AddAttacker(killmail *killmail.ZKillmail) {
 	for _, attacker := range killmail.Attackers {
 
-		//als het een npc is dan skip
+		//If attack is NPC skip kill
 		if attacker.CharacterID == nil {
 			continue
 		}
 
 		//faction Id staat niet altijd in json, dus is deze op zijn default value(0 in dit geval)
+		//Faction ID is not always present in JSON if not its a neutral
 		switch attacker.FactionID {
 		case Amarr:
 			s.addAttackerToFaction(s.Amarr, attacker.ShipTypeID)
