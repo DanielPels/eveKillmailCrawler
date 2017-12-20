@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"time"
 	"os"
-	"eveKillmailCrawler/zDatabase"
-	"eveKillmailCrawler/staticData"
-	"eveKillmailCrawler/crawler"
-	"eveKillmailCrawler/market"
+	"github.com/DanielPels/eveKillmailCrawler/crawler"
+	"github.com/DanielPels/eveKillmailCrawler/staticData"
+	"github.com/DanielPels/eveKillmailCrawler/market"
+	"github.com/DanielPels/eveKillmailCrawler/zDatabase"
 )
 
 //dits een persoonlijk project om lol mee te hebben ;) en GO te leren

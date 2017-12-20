@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"strconv"
 	"encoding/json"
-	"eveKillmailCrawler/zDatabase"
-	"eveKillmailCrawler/killmail"
+	"github.com/DanielPels/eveKillmailCrawler/zDatabase"
+	"github.com/DanielPels/eveKillmailCrawler/killmail"
 )
 
 /*

@@ -2,9 +2,9 @@ package zDatabase
 
 import (
 	"encoding/json"
-	"eveKillmailCrawler/killmail"
 	"sort"
 	"sync"
+	"github.com/DanielPels/eveKillmailCrawler/killmail"
 )
 
 type ZDatabase struct {

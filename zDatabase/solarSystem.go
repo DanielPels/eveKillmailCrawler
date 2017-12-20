@@ -1,7 +1,7 @@
 package zDatabase
 
 import (
-	"eveKillmailCrawler/killmail"
+	"github.com/DanielPels/eveKillmailCrawler/killmail"
 )
 
 //faction Id:

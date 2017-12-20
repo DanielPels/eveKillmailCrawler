@@ -2,10 +2,10 @@ package main
 
 import (
 	"net/http"
-	"eveKillmailCrawler/staticData"
-	"eveKillmailCrawler/market"
 	"html/template"
-	"eveKillmailCrawler/zDatabase"
+	"github.com/DanielPels/eveKillmailCrawler/zDatabase"
+	"github.com/DanielPels/eveKillmailCrawler/staticData"
+	"github.com/DanielPels/eveKillmailCrawler/market"
 )
 
 const priceMultiplier = 1.1
