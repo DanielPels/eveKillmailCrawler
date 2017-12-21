@@ -140,8 +140,10 @@ func (z *ZCrawler) getKillmails(Id int, time string) {
 
 	//decode killmails from json
 	var killMails *[]killmail.ZKillmail
-	json.NewDecoder(resp.Body).Decode(&killMails)
-	z.proccessKillmails(Id, *killMails)
+	errDecode := json.NewDecoder(resp.Body).Decode(&killMails)
+	if errDecode != nil {
+		z.proccessKillmails(Id, *killMails)
+	}
 }
 
 //proccess the killmails
